@@ -31,7 +31,7 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-4">
-            <button class="btn btn-primary" type="submit">Salvar</button>
+            <button class="btn btn-primary" type="submit" @click="successOrFailureWindow()" id="togglesuccess">Salvar</button>
             <a href="#" class="btn btn-primary" role="button" aria-pressed="true" @click="mult()">Calcular</a>
           </div>
         </div>
@@ -42,38 +42,58 @@
         <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">ID</th>
           <th scope="col">Moeda</th>
-          <th scope="col">Moeda Conv.</th>
           <th scope="col">Valor</th>
+          <th scope="col">Moeda Conv.</th>
           <th scope="col">Valor Conv.</th>
           <th scope="col">Data/Hora</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="readado in readados" :key="readado.id">
-          <th scope="row">{{ readado.id }}</th>
           <td>{{ readado.moeda_conversora }}</td>
-          <td>{{ readado.moeda_convertida }}</td>
           <td>{{ readado.valor_conversor }}</td>
+          <td>{{ readado.moeda_convertida }}</td>
           <td>{{ readado.valor_convertido }}</td>
-          <td>{{ readado.created_at }}</td>
+          <td>{{ readado.hourtime }}</td>
         </tr>
       </tbody>
     </table>
 
     </div>
+    <!--Modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#success">Clicar</button>
+    <div class="modal" tabindex="-1" role="dialog" id="success">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Salvo!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Esta cotação está salva no histórico!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
 </template>
 
 <script>
 
 import axios from 'axios';
 import Form from 'vform';
+import $ from 'jquery';
 
 export default {
+  //autenticação
   middleware: 'auth',
+  //variáveis da página
   data(){
     return{
       moeda_conversora: '',
@@ -100,11 +120,13 @@ export default {
     axios.get('https://api.exchangeratesapi.io/latest?symbols=BRL,CAD&base=USD').then(response => this.dadosUSD = response.data).catch(error => this.dadosUSD = console.log(error))
     axios.get('https://api.exchangeratesapi.io/latest?symbols=USD,CAD&base=BRL').then(response => this.dadosBRL = response.data)
     axios.get('https://api.exchangeratesapi.io/latest?symbols=BRL,USD&base=CAD').then(response => this.dadosCAD = response.data)
+    //monta listagem na tabela
     this.readData()
   },
 
 
   methods: {
+    //metodo para converter moedas
     mult(){
       if(this.moeda_conversora == 'USD' && this.moeda_convertida == 'CAD'){
         return this.valor_convertido = this.dadosUSD.rates['CAD'] * this.valor_conversor
@@ -126,6 +148,7 @@ export default {
       }
 
     },
+    //metodo para salvar no banco de dados
     saveData(){
       let dado = new FormData()
       dado.append('moeda_conversora', this.moeda_conversora)
@@ -134,18 +157,29 @@ export default {
       dado.append('valor_convertido', this.valor_convertido)
       axios.post('/api/currency', dado)
     },
+    //metodo de listagem pelo banco de dados
     readData(){
       axios.get('/api/currency')
         .then((response) => {
             this.readados = response.data
         })
         .catch((error) => {console.log(error)})
+    },
+    //metodo para aparecer janela quando salvar no banco
+    successOrFailureWindow(){
+
+        $(document).ready(function(){
+          $("#success").modal("toggle");
+        })
+
+
     }
   }
 }
 </script>
 
 <style scoped>
+  /** CSS editado */
   .form-control {
     width: auto;
   }
@@ -166,4 +200,8 @@ export default {
   .h1{
     font-weight: 200;
   }
+  .btn-secondary{
+    background-color: rgb(180, 67, 233);
+  }
+
 </style>

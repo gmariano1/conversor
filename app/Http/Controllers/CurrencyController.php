@@ -16,8 +16,8 @@ class CurrencyController extends Controller
     public function index()
     {
         //$query = 'select id, moeda_conversora, moeda_convertida, valor_conversor, valor_convertido, date_format(created_at, "%d/%m/%Y %h:%m") as created_at from cotacao order by id desc;';
-        return Currency::latest()->get();
-        //return Currency::newQuery('select id, moeda_conversora, moeda_convertida, valor_conversor, valor_convertido, date_format(created_at, "%d/%m/%Y %h:%m") as created_at from cotacao order by id desc;')->get();
+        //return Currency::latest()->get();
+        return Currency::select('id','moeda_conversora', 'moeda_convertida', 'valor_conversor', 'valor_convertido', Currency::raw('DATE_FORMAT(created_at, "%d/%m/%Y %H:%i") as hourtime'))->latest('id')->get();
     }
 
     /**
