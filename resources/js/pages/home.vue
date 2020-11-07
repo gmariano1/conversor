@@ -61,8 +61,7 @@
     </table>
 
     </div>
-    <!--Modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#success">Clicar</button>
+    <!--Modal Sucesso-->
     <div class="modal" tabindex="-1" role="dialog" id="success">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
