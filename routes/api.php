@@ -50,3 +50,7 @@ Route::group(['middleware' => 'guest:api'], function () {
 Route::resource('currency', CurrencyController::class)->only([
     'index', 'store'
 ]);
+
+/*Route::resource('client', ClientController::class)->only([
+    'index', 'store', 'update', 'destroy'
+]);*/

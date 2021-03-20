@@ -2,7 +2,7 @@
 
  ## Comandos e instruções para rodar
 
-- composer update
+- composer install
 - Editar o .env-example para .env com as configurações do DB.
 - php artisan key::generate e php artisan jwt:secret
 - Migrar tabelas com php artisan migrate
