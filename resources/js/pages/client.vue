@@ -54,7 +54,7 @@
                         <td>{{ readado.cep }}</td>
                         <td>{{ readado.hourtime }}</td>
                         <td><button type="button" class="btn btn-info" data-toggle="modal" @click="editClient(readado)">Editar</button></td>
-                        <td><button type="button" class="btn btn-danger">Deletar</button></td>
+                        <td><button type="button" class="btn btn-danger" @click="deleteClient(readado.id)">Deletar</button></td>
                     </tr>
                 </tbody>
         </table>
@@ -65,7 +65,7 @@
 
         <div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form @submit.self="updateClient">
+                <form @submit.once="updateClient">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
@@ -169,7 +169,7 @@ export default {
             $("#email").val(dados.email)
             $("#credit_card").val(dados.credit_card)
             $("#cvv").val(dados.cvv)
-            $("#valid_date").val(dados.validation_date)
+            $("#validation_date").val(dados.validation_date)
             $("#cep").val(dados.cep)
             $("#id").val(dados.id)
             /*$(document).ready(function(e){
@@ -181,19 +181,31 @@ export default {
             });*/
 
         },
+        deleteClient(id){
+            let dado = new FormData()
+            dado.append('_method', 'DELETE')
+            axios.post('/api/client/'+id, dado)
+        },
         updateClient(){
             const queryString = window.location.search;
             console.log(queryString);
-            //alert("entra")
-            /*let dado = new FormData();
-            data.append('_method', 'PATCH');
-            dado.append('name', this.name);
-            dado.append('email', this.email);
-            dado.append('credit_card', this.credit_card);
-            dado.append('cvv', this.cvv);
-            dado.append('validation_date', this.validation_date);
-            dado.append('cep', this.cep);
-            axios.post('/api/client/'+this.id, dado);*/
+            const urlParams = new URLSearchParams(queryString);
+            const name = urlParams.get('name')
+            const email = urlParams.get('email')
+            const credit_card = urlParams.get('credit_card')
+            const cvv = urlParams.get('cvv')
+            const validation_date = urlParams.get('validation_date')
+            const cep = urlParams.get('cep')
+            const id = urlParams.get('id')
+            let dado = new FormData();
+            dado.append('_method', 'PATCH');
+            dado.append('name', name);
+            dado.append('email', email);
+            dado.append('credit_card', credit_card);
+            dado.append('cvv', cvv);
+            dado.append('validation_date', validation_date);
+            dado.append('cep', cep);
+            axios.post('/api/client/'+id, dado);
         },
         saveData(){
             let dado = new FormData()
