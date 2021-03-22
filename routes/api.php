@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -51,6 +52,6 @@ Route::resource('currency', CurrencyController::class)->only([
     'index', 'store'
 ]);
 
-/*Route::resource('client', ClientController::class)->only([
+Route::resource('client', ClientController::class)->only([
     'index', 'store', 'update', 'destroy'
-]);*/
+]);

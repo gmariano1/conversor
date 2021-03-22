@@ -14,6 +14,8 @@ class Client extends Model
         'name',
         'email',
         'credit_card',
+        'cvv',
+        'validation_date',
         'cep'
     ];
 }

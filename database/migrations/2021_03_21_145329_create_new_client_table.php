@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Client extends Migration
+class CreateNewClientTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,6 +18,8 @@ class Client extends Migration
             $table->char('name');
             $table->char('email')->unique();
             $table->char('credit_card');
+            $table->char('cvv');
+            $table->date('validation_date');
             $table->char('cep');
             $table->timestamps();
         });
@@ -30,6 +32,6 @@ class Client extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client');
+        Schema::dropIfExists('new_client');
     }
 }
