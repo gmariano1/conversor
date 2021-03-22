@@ -19,7 +19,7 @@
             <label for="convertido">Valor Convertido</label>
             <input v-model="valor_convertido" class="form-control" disabled>
             <select v-model="moeda_convertida" class="custom-select">
-              <option dis abled value="">Escolha uma moeda</option>
+              <option disabled value="">Escolha uma moeda</option>
               <option>BRL</option>
               <option>CAD</option>
               <option>USD</option>
@@ -56,6 +56,7 @@
           <td>{{ readado.moeda_convertida }}</td>
           <td>{{ readado.valor_convertido }}</td>
           <td>{{ readado.hourtime }}</td>
+          
         </tr>
       </tbody>
     </table>
