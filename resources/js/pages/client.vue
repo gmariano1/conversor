@@ -65,7 +65,7 @@
 
         <div class="modal fade" id="editClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form @submit.once="updateClient">
+                <form @submit.prevent="updateClient" id="updateModal">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
@@ -172,13 +172,6 @@ export default {
             $("#validation_date").val(dados.validation_date)
             $("#cep").val(dados.cep)
             $("#id").val(dados.id)
-            /*$(document).ready(function(e){
-                $("#updateClient").on('click', function(){
-                    console.log(dado.name)
-                });
-
-                
-            });*/
 
         },
         deleteClient(id){
@@ -187,16 +180,13 @@ export default {
             axios.post('/api/client/'+id, dado)
         },
         updateClient(){
-            const queryString = window.location.search;
-            console.log(queryString);
-            const urlParams = new URLSearchParams(queryString);
-            const name = urlParams.get('name')
-            const email = urlParams.get('email')
-            const credit_card = urlParams.get('credit_card')
-            const cvv = urlParams.get('cvv')
-            const validation_date = urlParams.get('validation_date')
-            const cep = urlParams.get('cep')
-            const id = urlParams.get('id')
+            const id = document.getElementById("id").value;
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const credit_card = document.getElementById("credit_card").value;
+            const cvv = document.getElementById("cvv").value;
+            const validation_date = document.getElementById("validation_date").value;
+            const cep = document.getElementById("cep").value;
             let dado = new FormData();
             dado.append('_method', 'PATCH');
             dado.append('name', name);
@@ -206,6 +196,7 @@ export default {
             dado.append('validation_date', validation_date);
             dado.append('cep', cep);
             axios.post('/api/client/'+id, dado);
+            $("#editClient").modal("hide");
         },
         saveData(){
             let dado = new FormData()
