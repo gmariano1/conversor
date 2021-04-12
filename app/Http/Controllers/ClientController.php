@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 class ClientController extends Controller
 {
@@ -14,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Client::select('id', 'name', 'email', Client::raw('DATE_FORMAT(validation_date, "%d/%m/%Y") as valid_date'), Client::raw('DATE_FORMAT(updated_at, "%d/%m/%Y %H:%i") as hourtime'))->first('id')->get();
+        return Client::select('id', 'name', 'email', 'cep', 'credit_card', 'cvv', 'validation_date', Client::raw('DATE_FORMAT(validation_date, "%m/%Y") as valid_date'), Client::raw('DATE_FORMAT(updated_at, "%d/%m/%Y %H:%i") as hourtime'))->get();
     }
 
     /**

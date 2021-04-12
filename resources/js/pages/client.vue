@@ -1,5 +1,11 @@
 <template>
     <div class="main-layout">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Cliente Atualizado com sucesso
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <form @submit.prevent="saveData">
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -195,7 +201,11 @@ export default {
             dado.append('cvv', cvv);
             dado.append('validation_date', validation_date);
             dado.append('cep', cep);
-            axios.post('/api/client/'+id, dado);
+            axios.post('/api/client/'+id, dado).then(
+                (response) => {
+                    var statusUpdate = response;
+                }
+            );
             $("#editClient").modal("hide");
         },
         saveData(){
